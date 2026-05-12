@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OFF/BEAT — Aman 2.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #050505;
+            --white: #f5f0e8;
+            --cream: #ede8dc;
+            --acid: #c8ff00;
+            --orange: #ff4d00;
+            --muted: #555;
+            --mono: 'Space Mono', monospace;
+            --display: 'Bebas Neue', sans-serif;
+            --body: 'DM Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: var(--body);
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* NOISE OVERLAY */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.035;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* CUSTOM CURSOR */
+        .cursor {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: var(--acid);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: exclusion;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2.5rem;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-logo {
+            font-family: var(--display);
+            font-size: 1.6rem;
+            letter-spacing: 0.1em;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--acid);
+        }
+
+        .nav-tag {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--muted);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 2.5rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--display);
+            font-size: clamp(8rem, 22vw, 22rem);
+            color: rgba(255, 255, 255, 0.025);
+            white-space: nowrap;
+            pointer-events: none;
+            letter-spacing: -0.02em;
+            user-select: none;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid rgba(200, 255, 0, 0.4);
+            border-radius: 100px;
+            padding: 0.35rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--acid);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            width: fit-content;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .pill::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--acid);
+            border-radius: 50%;
+            animation: pulse 1.5s ease infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.7);
+            }
+        }
+
+        .hero-headline {
+            font-family: var(--display);
+            font-size: clamp(4.5rem, 13vw, 13rem);
+            line-height: 0.88;
+            letter-spacing: -0.01em;
+            position: relative;
+            animation: fadeUp 0.8s 0.1s ease both;
+        }
+
+        .hero-headline .slash {
+            color: var(--acid);
+            display: inline-block;
+            animation: flicker 4s ease infinite;
+        }
+
+        @keyframes flicker {
+
+            0%,
+            92%,
+            94%,
+            96%,
+            100% {
+                opacity: 1;
+            }
+
+            93%,
+            95% {
+                opacity: 0.2;
+            }
+        }
+
+        .hero-sub {
+            font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            color: rgba(245, 240, 232, 0.5);
+            max-width: 480px;
+            line-height: 1.7;
+            margin-top: 2rem;
+            font-weight: 300;
+            animation: fadeUp 0.8s 0.2s ease both;
+        }
+
+        .hero-cta-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+            animation: fadeUp 0.8s 0.3s ease both;
+        }
+
+        .btn-primary {
+            background: var(--acid);
+            color: var(--black);
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.9rem 2rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+        }
+
+        .btn-primary:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 var(--orange);
+        }
+
+        .btn-ghost {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .btn-ghost:hover {
+            color: var(--white);
+        }
+
+        .btn-ghost::after {
+            content: '→';
+            transition: transform 0.2s;
+        }
+
+        .btn-ghost:hover::after {
+            transform: translateX(4px);
+        }
+
+        .hero-stat-row {
+            position: absolute;
+            bottom: 3rem;
+            right: 2.5rem;
+            display: flex;
+            gap: 2.5rem;
+            animation: fadeUp 0.8s 0.5s ease both;
+        }
+
+        .stat {
+            text-align: right;
+        }
+
+        .stat-num {
+            font-family: var(--display);
+            font-size: 2.5rem;
+            color: var(--white);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-family: var(--mono);
+            font-size: 0.55rem;
+            color: var(--muted);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-top: 0.2rem;
+        }
+
+        /* MARQUEE */
+        .marquee-wrap {
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 0.9rem 0;
+            background: rgba(200, 255, 0, 0.03);
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 0;
+            animation: marquee 20s linear infinite;
+            white-space: nowrap;
+        }
+
+        .marquee-item {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .marquee-item .dot {
+            color: var(--acid);
+            font-size: 1.2em;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* SECTION COMMONS */
+        section {
+            padding: 5rem 2.5rem;
+        }
+
+        .section-label {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--acid);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 1px;
+            background: var(--acid);
+        }
+
+        .section-title {
+            font-family: var(--display);
+            font-size: clamp(2.8rem, 6vw, 6rem);
+            line-height: 0.92;
+            letter-spacing: 0.01em;
+        }
+
+        /* ABOUT */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .about {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .hero-stat-row {
+                position: static;
+                flex-direction: row;
+                justify-content: flex-start;
+                margin-top: 2rem;
+            }
+
+            .stat {
+                text-align: left;
+            }
+        }
+
+        .about-left {}
+
+        .about-right {
+            padding-top: 1rem;
+        }
+
+        .about-body {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: rgba(245, 240, 232, 0.65);
+            font-weight: 300;
+            margin-top: 1.5rem;
+        }
+
+        .about-body strong {
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        .quote-block {
+            margin-top: 2.5rem;
+            border-left: 2px solid var(--acid);
+            padding-left: 1.5rem;
+        }
+
+        .quote-text {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.7;
+            color: rgba(245, 240, 232, 0.7);
+            font-style: italic;
+        }
+
+        .quote-attr {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            color: var(--muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 0.8rem;
+        }
+
+        /* PILLARS */
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            margin-top: 3.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        @media (max-width: 768px) {
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pillar {
+            padding: 2.5rem 2rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.07);
+            transition: background 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pillar:last-child {
+            border-right: none;
+        }
+
+        .pillar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(200, 255, 0, 0.04) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .pillar:hover::before {
+            opacity: 1;
+        }
+
+        .pillar-num {
+            font-family: var(--display);
+            font-size: 4rem;
+            color: rgba(200, 255, 0, 0.15);
+            line-height: 1;
+            margin-bottom: 1.2rem;
+        }
+
+        .pillar-title {
+            font-family: var(--display);
+            font-size: 1.6rem;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.8rem;
+        }
+
+        .pillar-body {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: rgba(245, 240, 232, 0.5);
+            font-weight: 300;
+        }
+
+        /* FUNDING */
+        .funding-section {
+            padding: 6rem 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .funding-section::before {
+            content: 'BACKED';
+            position: absolute;
+            right: -1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: var(--display);
+            font-size: clamp(6rem, 18vw, 18rem);
+            color: rgba(255, 255, 255, 0.025);
+            pointer-events: none;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+        }
+
+        .funding-top {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .funding-big-num {
+            font-family: var(--display);
+            font-size: clamp(5rem, 15vw, 14rem);
+            line-height: 0.85;
+            letter-spacing: -0.01em;
+        }
+
+        .funding-big-num .cr {
+            color: var(--acid);
+        }
+
+        .funding-investor-block {
+            text-align: right;
+            max-width: 260px;
+        }
+
+        .investor-name {
+            font-family: var(--display);
+            font-size: 1.6rem;
+            line-height: 1.1;
+            margin-bottom: 0.6rem;
+        }
+
+        .investor-sub {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: var(--muted);
+            text-transform: uppercase;
+            line-height: 1.8;
+        }
+
+        .funding-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .funding-stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .funding-investor-block {
+                text-align: left;
+            }
+        }
+
+        .fstat {
+            padding: 2rem 0;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding-right: 2rem;
+            margin-right: 2rem;
+        }
+
+        .fstat:last-child {
+            border-right: none;
+            margin-right: 0;
+        }
+
+        .fstat-val {
+            font-family: var(--display);
+            font-size: clamp(1.8rem, 3.5vw, 3rem);
+            line-height: 1;
+            color: var(--white);
+        }
+
+        .fstat-val .hi {
+            color: var(--acid);
+        }
+
+        .fstat-label {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 0.5rem;
+        }
+
+        .bessemer-tag {
+            display: inline-flex;
+            gap: 0.5rem;
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 2.5rem;
+        }
+
+        .bessemer-tag::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--acid);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        .portfolio-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .pchip {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.3rem 0.7rem;
+            color: rgba(245, 240, 232, 0.5);
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .pchip:hover {
+            border-color: var(--acid);
+            color: var(--acid);
+        }
+
+        /* VISION */
+        .vision-statement {
+            font-family: var(--display);
+            font-size: clamp(2rem, 5vw, 5rem);
+            line-height: 1;
+            max-width: 900px;
+            margin: 3rem 0;
+            letter-spacing: 0.01em;
+        }
+
+        .vision-statement em {
+            color: var(--acid);
+            font-style: normal;
+            position: relative;
+        }
+
+        /* INTERNSHIP CTA */
+        .cta-section {
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 8rem 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .cta-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(200, 255, 0, 0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--acid);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-title {
+            font-family: var(--display);
+            font-size: clamp(3.5rem, 10vw, 10rem);
+            line-height: 0.88;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-sub {
+            font-size: 0.95rem;
+            color: rgba(245, 240, 232, 0.5);
+            max-width: 440px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            font-family: var(--display);
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-logo span {
+            color: var(--acid);
+        }
+
+        .footer-copy {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--black);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--acid);
+        }
+
+        /* TAG CHIP */
+        .chip {
+            display: inline-flex;
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--black);
+            background: var(--acid);
+            padding: 0.25rem 0.7rem;
+            margin-bottom: 2rem;
+        }
+
+        /* SEPARATOR LINE */
+        .line-sep {
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.07);
+            margin: 0;
+        }
+
+        .orange-line {
+            background: var(--orange);
+            width: 48px;
+            height: 3px;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor" id="cursor"></div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-logo">OFF<span>/</span>BEAT</a>
+        <span class="nav-tag">Est. 2026 · India</span>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-text">OFF/BEAT</div>
+
+        <div class="pill">🟢 Aman 2.0 is live</div>
+
+        <h1 class="hero-headline">
+            OFF<span class="slash">/</span><br>BEAT
+        </h1>
+
+        <p class="hero-sub">
+            Where AI meets the creator economy.<br>
+            Built for a generation that doesn't follow the script.
+        </p>
+
+        <div class="hero-cta-row">
+            <a href="#vision" class="btn-primary">See the vision</a>
+            <a href="#story" class="btn-ghost">Aman's story</a>
+        </div>
+
+        <div class="hero-stat-row">
+            <div class="stat">
+                <div class="stat-num">₹100Cr</div>
+                <div class="stat-label">Seed funding</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">30d</div>
+                <div class="stat-label">To raise it</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">₹450Cr</div>
+                <div class="stat-label">Valuation</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+        <div class="marquee-track">
+            <span class="marquee-item">Creator Economy <span class="dot">◆</span></span>
+            <span class="marquee-item">AI-Powered <span class="dot">◆</span></span>
+            <span class="marquee-item">Bessemer Venture Partners <span class="dot">◆</span></span>
+            <span class="marquee-item">Content-First <span class="dot">◆</span></span>
+            <span class="marquee-item">Aman Gupta <span class="dot">◆</span></span>
+            <span class="marquee-item">Seed Round Closed <span class="dot">◆</span></span>
+            <span class="marquee-item">boAt → OFF/BEAT <span class="dot">◆</span></span>
+            <span class="marquee-item">India's Next Chapter <span class="dot">◆</span></span>
+            <span class="marquee-item">Creator Economy <span class="dot">◆</span></span>
+            <span class="marquee-item">AI-Powered <span class="dot">◆</span></span>
+            <span class="marquee-item">Bessemer Venture Partners <span class="dot">◆</span></span>
+            <span class="marquee-item">Content-First <span class="dot">◆</span></span>
+            <span class="marquee-item">Aman Gupta <span class="dot">◆</span></span>
+            <span class="marquee-item">Seed Round Closed <span class="dot">◆</span></span>
+            <span class="marquee-item">boAt → OFF/BEAT <span class="dot">◆</span></span>
+            <span class="marquee-item">India's Next Chapter <span class="dot">◆</span></span>
+        </div>
+    </div>
+
+    <!-- ABOUT / STORY -->
+    <section id="story">
+        <div class="about reveal">
+            <div class="about-left">
+                <div class="section-label">Origin Story</div>
+                <h2 class="section-title">Aman<br>2.0</h2>
+                <div class="orange-line" style="margin-top:1.5rem;"></div>
+                <div class="quote-block">
+                    <p class="quote-text">"With every birthday, some grow older, I grow bolder. I am still hungry, still
+                        impatient, and still driven."</p>
+                    <p class="quote-attr">— Aman Gupta, March 3 2026</p>
+                </div>
+            </div>
+            <div class="about-right">
+                <p class="about-body" style="margin-top:3.5rem;">
+                    Aman Gupta built <strong>boAt</strong> from scratch into a <strong>₹3,000 crore</strong> revenue
+                    consumer brand — India's most recognisable audio label. He could have coasted.
+                    <br><br>
+                    He didn't. On his birthday in March 2026, he walked away from the day-to-day and announced something
+                    entirely new. No slides. No pitch. Just a logo and a fire.
+                    <br><br>
+                    <strong>OFF/BEAT</strong> is his second act — a content and creator-led venture sitting at the exact
+                    intersection of <strong>AI technology</strong> and a <strong>digitally native generation</strong>
+                    rewriting the rules of aspiration, identity, and loyalty.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="line-sep"></div>
+
+    <!-- VISION SECTION -->
+    <section id="vision">
+        <div class="reveal">
+            <div class="section-label">The Thesis</div>
+            <div class="vision-statement">
+                India is undergoing a <em>structural shift.</em> A digitally native, aspirational generation is
+                rewriting what companies must stand for — and <em>AI</em> is reshaping how they're built.
+            </div>
+            <p
+                style="color:rgba(245,240,232,0.45); font-size:0.9rem; max-width:540px; line-height:1.8; font-weight:300;">
+                — from OFF/BEAT's official statement, April 2026
+            </p>
+        </div>
+    </section>
+
+    <div class="line-sep"></div>
+
+    <!-- PILLARS -->
+    <section>
+        <div class="reveal">
+            <div class="section-label">What We're Building</div>
+            <h2 class="section-title">Three<br>Pillars</h2>
+        </div>
+        <div class="pillars-grid reveal">
+            <div class="pillar">
+                <div class="pillar-num">01</div>
+                <div class="pillar-title">Creator Economy</div>
+                <p class="pillar-body">Building the infrastructure, platform, and community for India's next generation
+                    of digital creators — tools, distribution, and monetisation reimagined from scratch.</p>
+            </div>
+            <div class="pillar">
+                <div class="pillar-num">02</div>
+                <div class="pillar-title">AI × Content</div>
+                <p class="pillar-body">AI isn't a feature here — it's the operating system. OFF/BEAT is being built from
+                    day one with AI compressing creation costs, unlocking personalisation, and scaling reach 10x.</p>
+            </div>
+            <div class="pillar">
+                <div class="pillar-num">03</div>
+                <div class="pillar-title">Consumer Culture</div>
+                <p class="pillar-body">The same instinct that built boAt — understanding aspiration, identity, and
+                    quality for the new India — is now being applied to how this generation discovers, creates, and
+                    consumes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FUNDING -->
+    <div class="funding-section reveal">
+        <div class="section-label">The Raise</div>
+
+        <div class="funding-top">
+            <div class="funding-big-num">₹100<span class="cr">Cr</span></div>
+            <div class="funding-investor-block">
+                <div class="investor-name">Bessemer<br>Venture Partners</div>
+                <div class="investor-sub">Lead investor · April 2026<br>Global VC · Rank #3 worldwide</div>
+            </div>
+        </div>
+
+        <div class="funding-stats-row">
+            <div class="fstat">
+                <div class="fstat-val">₹<span class="hi">450</span>Cr</div>
+                <div class="fstat-label">Seed valuation</div>
+            </div>
+            <div class="fstat">
+                <div class="fstat-val"><span class="hi">~30</span>d</div>
+                <div class="fstat-label">Time to close</div>
+            </div>
+            <div class="fstat">
+                <div class="fstat-val"><span class="hi">100+</span></div>
+                <div class="fstat-label">Startups Aman backed</div>
+            </div>
+            <div class="fstat">
+                <div class="fstat-val">₹<span class="hi">3K</span>Cr</div>
+                <div class="fstat-label">boAt revenue at exit</div>
+            </div>
+        </div>
+
+        <div class="bessemer-tag">Bessemer portfolio includes</div>
+        <div class="portfolio-chips">
+            <span class="pchip">Anthropic</span>
+            <span class="pchip">Shopify</span>
+            <span class="pchip">Canva</span>
+            <span class="pchip">LinkedIn</span>
+            <span class="pchip">Swiggy</span>
+            <span class="pchip">Urban Company</span>
+            <span class="pchip">BigBasket</span>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <section class="cta-section" id="join">
+        <div class="cta-bg"></div>
+        <p class="cta-eyebrow">⚡ Building the team</p>
+        <h2 class="cta-title">JOIN THE<br>OFFBEAT</h2>
+        <p class="cta-sub">India's creator economy is being rebuilt from scratch. If you're wired differently — obsessed
+            with AI, content, and building at scale — this is where you belong.</p>
+        <a href="mailto:careers@offbeatstudios.in" class="btn-primary" style="font-size:0.8rem; padding:1rem 2.5rem;">
+            Send your play →
+        </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">OFF<span>/</span>BEAT</div>
+        <div class="footer-copy">© 2026 OFF/BEAT Studios · Backed by Bessemer Venture Partners · India</div>
+    </footer>
+
+    <script>
+        // Custom cursor
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX - 6 + 'px';
+            cursor.style.top = e.clientY - 6 + 'px';
+        });
+
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(3)');
+            el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+        });
+
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
