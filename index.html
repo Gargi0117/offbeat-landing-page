@@ -126,6 +126,39 @@
             user-select: none;
         }
 
+        .aman-image {
+            position: absolute;
+            right: -3%;
+            bottom: 12%;
+            height: 78vh;
+            object-fit: contain;
+            filter: grayscale(100%) contrast(1.2);
+            mix-blend-mode: lighten;
+            opacity: 0.78;
+            z-index: 1;
+            pointer-events: none;
+            mask-image: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 1) 55%,
+                    rgba(0, 0, 0, 0.9) 70%,
+                    rgba(0, 0, 0, 0.4) 85%,
+                    transparent 100%);
+
+            -webkit-mask-image: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 1) 55%,
+                    rgba(0, 0, 0, 0.9) 70%,
+                    rgba(0, 0, 0, 0.4) 85%,
+                    transparent 100%);
+        }
+
+        /* .hero-headline,
+        .hero-sub,
+        .hero-cta-row,
+        .pill,
+        .hero-stat-row {
+            position: relative;
+            z-index: 5;
+        } */
+
         .pill {
             display: inline-flex;
             align-items: center;
@@ -807,6 +840,72 @@
             height: 3px;
             margin-bottom: 2rem;
         }
+
+        @media (max-width: 768px) {
+
+            .hero {
+                padding: 7rem 1.5rem 4rem;
+            }
+
+            .aman-image {
+                height: 34vh;
+                right: -14%;
+                bottom: 20%;
+
+                opacity: 0.34;
+
+                z-index: 1;
+
+                filter: grayscale(100%) contrast(1.1);
+
+                mask-image: linear-gradient(to bottom,
+                        rgba(0, 0, 0, 1) 55%,
+                        rgba(0, 0, 0, 0.5) 80%,
+                        transparent 100%);
+
+                -webkit-mask-image: linear-gradient(to bottom,
+                        rgba(0, 0, 0, 1) 55%,
+                        rgba(0, 0, 0, 0.5) 80%,
+                        transparent 100%);
+            }
+
+            .hero-headline,
+            .hero-sub,
+            .hero-cta-row,
+            .pill,
+            .hero-stat-row {
+                position: relative;
+                z-index: 5;
+            }
+
+            .hero-cta-row {
+                gap: 1rem;
+            }
+
+            .hero-stat-row {
+                position: relative;
+
+                bottom: auto;
+                right: auto;
+
+                margin-top: 2.5rem;
+
+                display: flex;
+                justify-content: flex-start;
+
+                gap: 1.5rem;
+
+                flex-wrap: wrap;
+            }
+
+            .stat {
+                text-align: left;
+            }
+
+            .stat-num {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 
@@ -823,7 +922,7 @@
     <!-- HERO -->
     <section class="hero" id="hero">
         <div class="hero-bg-text">OFF/BEAT</div>
-
+        <img src="assets/aman.png" alt="Aman Gupta" class="aman-image">
         <div class="pill">🟢 Aman 2.0 is live</div>
 
         <h1 class="hero-headline">
